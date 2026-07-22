@@ -51,6 +51,13 @@ function urban_charrette_enqueue_assets() {
 		wp_get_theme()->get( 'Version' )
 	);
 
+	wp_enqueue_style(
+		'urban-charrette-what-we-do',
+		get_template_directory_uri() . '/assets/css/what-we-do.css',
+		array( 'urban-charrette-fonts' ),
+		wp_get_theme()->get( 'Version' )
+	);
+
 	wp_enqueue_script(
 		'urban-charrette-navigation',
 		get_template_directory_uri() . '/assets/js/navigation.js',
@@ -63,7 +70,7 @@ function urban_charrette_enqueue_assets() {
 add_action( 'wp_enqueue_scripts', 'urban_charrette_enqueue_assets' );
 
 
-// Hero and Footer Customizer Settings
+// Hero, What We Do, and Footer Customizer Settings
 function urban_charrette_add_customizer_settings( $wp_customize ) {
 	
 	// Hero Section
@@ -219,6 +226,221 @@ function urban_charrette_add_customizer_settings( $wp_customize ) {
 	$wp_customize->add_control( 'urban_charrette_hero_card_3_link', array(
 		'label' => __( 'Card 3 Link URL', 'urban-charrette' ),
 		'section' => 'urban_charrette_hero',
+		'type' => 'text',
+	) );
+
+	// What We Do Section
+	$wp_customize->add_section( 'urban_charrette_what_we_do', array(
+		'title' => __( 'What We Do Section', 'urban-charrette' ),
+		'priority' => 119,
+	) );
+
+	// What We Do Title
+	$wp_customize->add_setting( 'urban_charrette_what_we_do_title', array(
+		'default' => 'What We Do',
+		'sanitize_callback' => 'sanitize_text_field',
+		'transport' => 'refresh',
+	) );
+
+	$wp_customize->add_control( 'urban_charrette_what_we_do_title', array(
+		'label' => __( 'Section Title', 'urban-charrette' ),
+		'section' => 'urban_charrette_what_we_do',
+		'type' => 'text',
+	) );
+
+	// What We Do Description
+	$wp_customize->add_setting( 'urban_charrette_what_we_do_description', array(
+		'default' => 'The Urban Charrette facilitates connections between the community and the built environment by cultivating awareness of respectful urban design through dialogue, collaboration, and education.',
+		'sanitize_callback' => 'wp_kses_post',
+		'transport' => 'refresh',
+	) );
+
+	$wp_customize->add_control( 'urban_charrette_what_we_do_description', array(
+		'label' => __( 'Section Description', 'urban-charrette' ),
+		'section' => 'urban_charrette_what_we_do',
+		'type' => 'textarea',
+	) );
+
+	// Card 1 (Community)
+	$wp_customize->add_setting( 'urban_charrette_what_we_do_card_1_image', array(
+		'default' => '',
+		'sanitize_callback' => 'esc_url_raw',
+		'transport' => 'refresh',
+	) );
+
+	$wp_customize->add_control( new WP_Customize_Image_Control( $wp_customize, 'urban_charrette_what_we_do_card_1_image', array(
+		'label' => __( 'Card 1 Image (Community)', 'urban-charrette' ),
+		'section' => 'urban_charrette_what_we_do',
+		'settings' => 'urban_charrette_what_we_do_card_1_image',
+	) ) );
+
+	$wp_customize->add_setting( 'urban_charrette_what_we_do_card_1_title', array(
+		'default' => 'Community',
+		'sanitize_callback' => 'sanitize_text_field',
+		'transport' => 'refresh',
+	) );
+
+	$wp_customize->add_control( 'urban_charrette_what_we_do_card_1_title', array(
+		'label' => __( 'Card 1 Title', 'urban-charrette' ),
+		'section' => 'urban_charrette_what_we_do',
+		'type' => 'text',
+	) );
+
+	$wp_customize->add_setting( 'urban_charrette_what_we_do_card_1_description', array(
+		'default' => 'The Urban Charrette is committed to community through creative interventions. We continue to engage and educate our neighbors about the built environment and it\'s impacts towards smarter growth.',
+		'sanitize_callback' => 'wp_kses_post',
+		'transport' => 'refresh',
+	) );
+
+	$wp_customize->add_control( 'urban_charrette_what_we_do_card_1_description', array(
+		'label' => __( 'Card 1 Description', 'urban-charrette' ),
+		'section' => 'urban_charrette_what_we_do',
+		'type' => 'textarea',
+	) );
+
+	$wp_customize->add_setting( 'urban_charrette_what_we_do_card_1_link', array(
+		'default' => '#',
+		'sanitize_callback' => 'esc_url_raw',
+		'transport' => 'refresh',
+	) );
+
+	$wp_customize->add_control( 'urban_charrette_what_we_do_card_1_link', array(
+		'label' => __( 'Card 1 Link URL', 'urban-charrette' ),
+		'section' => 'urban_charrette_what_we_do',
+		'type' => 'text',
+	) );
+
+	$wp_customize->add_setting( 'urban_charrette_what_we_do_card_1_link_text', array(
+		'default' => 'Learn More',
+		'sanitize_callback' => 'sanitize_text_field',
+		'transport' => 'refresh',
+	) );
+
+	$wp_customize->add_control( 'urban_charrette_what_we_do_card_1_link_text', array(
+		'label' => __( 'Card 1 Link Text', 'urban-charrette' ),
+		'section' => 'urban_charrette_what_we_do',
+		'type' => 'text',
+	) );
+
+	// Card 2 (Facilitation)
+	$wp_customize->add_setting( 'urban_charrette_what_we_do_card_2_image', array(
+		'default' => '',
+		'sanitize_callback' => 'esc_url_raw',
+		'transport' => 'refresh',
+	) );
+
+	$wp_customize->add_control( new WP_Customize_Image_Control( $wp_customize, 'urban_charrette_what_we_do_card_2_image', array(
+		'label' => __( 'Card 2 Image (Facilitation)', 'urban-charrette' ),
+		'section' => 'urban_charrette_what_we_do',
+		'settings' => 'urban_charrette_what_we_do_card_2_image',
+	) ) );
+
+	$wp_customize->add_setting( 'urban_charrette_what_we_do_card_2_title', array(
+		'default' => 'Facilitation',
+		'sanitize_callback' => 'sanitize_text_field',
+		'transport' => 'refresh',
+	) );
+
+	$wp_customize->add_control( 'urban_charrette_what_we_do_card_2_title', array(
+		'label' => __( 'Card 2 Title', 'urban-charrette' ),
+		'section' => 'urban_charrette_what_we_do',
+		'type' => 'text',
+	) );
+
+	$wp_customize->add_setting( 'urban_charrette_what_we_do_card_2_description', array(
+		'default' => 'Fostering partnerships between local agencies, design professionals, and engaged citizens is a core component of the Urban Charrette. We believe in bringing people together and creating consensus.',
+		'sanitize_callback' => 'wp_kses_post',
+		'transport' => 'refresh',
+	) );
+
+	$wp_customize->add_control( 'urban_charrette_what_we_do_card_2_description', array(
+		'label' => __( 'Card 2 Description', 'urban-charrette' ),
+		'section' => 'urban_charrette_what_we_do',
+		'type' => 'textarea',
+	) );
+
+	$wp_customize->add_setting( 'urban_charrette_what_we_do_card_2_link', array(
+		'default' => '#',
+		'sanitize_callback' => 'esc_url_raw',
+		'transport' => 'refresh',
+	) );
+
+	$wp_customize->add_control( 'urban_charrette_what_we_do_card_2_link', array(
+		'label' => __( 'Card 2 Link URL', 'urban-charrette' ),
+		'section' => 'urban_charrette_what_we_do',
+		'type' => 'text',
+	) );
+
+	$wp_customize->add_setting( 'urban_charrette_what_we_do_card_2_link_text', array(
+		'default' => 'Learn More',
+		'sanitize_callback' => 'sanitize_text_field',
+		'transport' => 'refresh',
+	) );
+
+	$wp_customize->add_control( 'urban_charrette_what_we_do_card_2_link_text', array(
+		'label' => __( 'Card 2 Link Text', 'urban-charrette' ),
+		'section' => 'urban_charrette_what_we_do',
+		'type' => 'text',
+	) );
+
+	// Card 3 (Education)
+	$wp_customize->add_setting( 'urban_charrette_what_we_do_card_3_image', array(
+		'default' => '',
+		'sanitize_callback' => 'esc_url_raw',
+		'transport' => 'refresh',
+	) );
+
+	$wp_customize->add_control( new WP_Customize_Image_Control( $wp_customize, 'urban_charrette_what_we_do_card_3_image', array(
+		'label' => __( 'Card 3 Image (Education)', 'urban-charrette' ),
+		'section' => 'urban_charrette_what_we_do',
+		'settings' => 'urban_charrette_what_we_do_card_3_image',
+	) ) );
+
+	$wp_customize->add_setting( 'urban_charrette_what_we_do_card_3_title', array(
+		'default' => 'Education',
+		'sanitize_callback' => 'sanitize_text_field',
+		'transport' => 'refresh',
+	) );
+
+	$wp_customize->add_control( 'urban_charrette_what_we_do_card_3_title', array(
+		'label' => __( 'Card 3 Title', 'urban-charrette' ),
+		'section' => 'urban_charrette_what_we_do',
+		'type' => 'text',
+	) );
+
+	$wp_customize->add_setting( 'urban_charrette_what_we_do_card_3_description', array(
+		'default' => 'The Urban Charrette helps to educate the general public about the importance of urban design in the development by providing opportunities for the community to participate in open discourse.',
+		'sanitize_callback' => 'wp_kses_post',
+		'transport' => 'refresh',
+	) );
+
+	$wp_customize->add_control( 'urban_charrette_what_we_do_card_3_description', array(
+		'label' => __( 'Card 3 Description', 'urban-charrette' ),
+		'section' => 'urban_charrette_what_we_do',
+		'type' => 'textarea',
+	) );
+
+	$wp_customize->add_setting( 'urban_charrette_what_we_do_card_3_link', array(
+		'default' => '#',
+		'sanitize_callback' => 'esc_url_raw',
+		'transport' => 'refresh',
+	) );
+
+	$wp_customize->add_control( 'urban_charrette_what_we_do_card_3_link', array(
+		'label' => __( 'Card 3 Link URL', 'urban-charrette' ),
+		'section' => 'urban_charrette_what_we_do',
+		'type' => 'text',
+	) );
+
+	$wp_customize->add_setting( 'urban_charrette_what_we_do_card_3_link_text', array(
+		'default' => 'Learn More',
+		'sanitize_callback' => 'sanitize_text_field',
+		'transport' => 'refresh',
+	) );
+
+	$wp_customize->add_control( 'urban_charrette_what_we_do_card_3_link_text', array(
+		'label' => __( 'Card 3 Link Text', 'urban-charrette' ),
+		'section' => 'urban_charrette_what_we_do',
 		'type' => 'text',
 	) );
 
