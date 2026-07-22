@@ -3,6 +3,8 @@
 
 </main>
 
+<?php get_template_part( 'template-parts/cta' ); ?>
+
 <footer class="site-footer">
 	<div class="site-footer__container">
 		<!-- Left: Logo & Subscription -->

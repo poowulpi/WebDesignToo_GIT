@@ -496,7 +496,7 @@ body {
 	background-repeat: no-repeat;
 	width: 100%;
 	margin: 0;
-	padding: 0;
+	padding: 20px;
 	position: relative;
 	overflow: hidden;
 }
@@ -515,7 +515,7 @@ body {
 	position: relative;
 	z-index: 2;
 	text-align: center;
-	padding: 100px 20px;
+	padding: 10px 20px;
 	width: min(100% - 40px, var(--header-max-width));
 	margin: 0 auto;
 }
@@ -545,7 +545,7 @@ body {
 
 @media screen and (max-width: 850px) {
 	.cta__content {
-		padding: 60px 20px;
+		padding: 20px 20px;
 	}
 
 	.cta__content h2 {
