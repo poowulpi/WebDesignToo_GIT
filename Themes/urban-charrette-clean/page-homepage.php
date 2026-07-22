@@ -1,7 +1,7 @@
 <?php
 /**
  * Template Name: Homepage
- * Description: Homepage template with hero and What We Do sections
+ * Description: Homepage template with hero, What We Do, and About sections
  *
  * @package Urban Charrette
  */
@@ -12,6 +12,8 @@ get_header();
 <?php get_template_part( 'template-parts/hero' ); ?>
 
 <?php get_template_part( 'template-parts/what-we-do' ); ?>
+
+<?php get_template_part( 'template-parts/about' ); ?>
 
 <main>
 	<div class="container" style="padding: 60px 20px;">

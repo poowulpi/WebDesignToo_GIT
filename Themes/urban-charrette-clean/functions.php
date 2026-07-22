@@ -58,6 +58,13 @@ function urban_charrette_enqueue_assets() {
 		wp_get_theme()->get( 'Version' )
 	);
 
+	wp_enqueue_style(
+		'urban-charrette-about',
+		get_template_directory_uri() . '/assets/css/about.css',
+		array( 'urban-charrette-fonts' ),
+		wp_get_theme()->get( 'Version' )
+	);
+
 	wp_enqueue_script(
 		'urban-charrette-navigation',
 		get_template_directory_uri() . '/assets/js/navigation.js',
@@ -70,7 +77,7 @@ function urban_charrette_enqueue_assets() {
 add_action( 'wp_enqueue_scripts', 'urban_charrette_enqueue_assets' );
 
 
-// Hero, What We Do, and Footer Customizer Settings
+// Hero, What We Do, About, and Footer Customizer Settings
 function urban_charrette_add_customizer_settings( $wp_customize ) {
 	
 	// Hero Section
@@ -441,6 +448,114 @@ function urban_charrette_add_customizer_settings( $wp_customize ) {
 	$wp_customize->add_control( 'urban_charrette_what_we_do_card_3_link_text', array(
 		'label' => __( 'Card 3 Link Text', 'urban-charrette' ),
 		'section' => 'urban_charrette_what_we_do',
+		'type' => 'text',
+	) );
+
+	// About Section
+	$wp_customize->add_section( 'urban_charrette_about', array(
+		'title' => __( 'About Section', 'urban-charrette' ),
+		'priority' => 119,
+	) );
+
+	// About Title
+	$wp_customize->add_setting( 'urban_charrette_about_title', array(
+		'default' => 'About the Urban Charrette',
+		'sanitize_callback' => 'sanitize_text_field',
+		'transport' => 'refresh',
+	) );
+
+	$wp_customize->add_control( 'urban_charrette_about_title', array(
+		'label' => __( 'About Title', 'urban-charrette' ),
+		'section' => 'urban_charrette_about',
+		'type' => 'text',
+	) );
+
+	// About Text 1
+	$wp_customize->add_setting( 'urban_charrette_about_text_1', array(
+		'default' => 'The Urban Charrette facilitates connections between the community and the built environment by cultivating awareness of respectful urban design through dialogue, collaboration, and education.',
+		'sanitize_callback' => 'wp_kses_post',
+		'transport' => 'refresh',
+	) );
+
+	$wp_customize->add_control( 'urban_charrette_about_text_1', array(
+		'label' => __( 'About Text 1', 'urban-charrette' ),
+		'section' => 'urban_charrette_about',
+		'type' => 'textarea',
+	) );
+
+	// About Text 2
+	$wp_customize->add_setting( 'urban_charrette_about_text_2', array(
+		'default' => 'We are a private, not-for-profit organization whose primary goal is to educate citizens on the importance of quality urban design in shaping more beautiful, sustainable, and authentic cities. We host educational forums and consensus building workshops incorporating meaningful and broad-based public participation. Founded in Tampa, the Urban Charrette believes in leading by example to develop a more socially, economically and sustainable local environment that addresses the needs of young professionals, children, families, and the aging.',
+		'sanitize_callback' => 'wp_kses_post',
+		'transport' => 'refresh',
+	) );
+
+	$wp_customize->add_control( 'urban_charrette_about_text_2', array(
+		'label' => __( 'About Text 2', 'urban-charrette' ),
+		'section' => 'urban_charrette_about',
+		'type' => 'textarea',
+	) );
+
+	// About Image
+	$wp_customize->add_setting( 'urban_charrette_about_image', array(
+		'default' => '',
+		'sanitize_callback' => 'esc_url_raw',
+		'transport' => 'refresh',
+	) );
+
+	$wp_customize->add_control( new WP_Customize_Image_Control( $wp_customize, 'urban_charrette_about_image', array(
+		'label' => __( 'About Image', 'urban-charrette' ),
+		'section' => 'urban_charrette_about',
+		'settings' => 'urban_charrette_about_image',
+	) ) );
+
+	// Button 1 (Learn More)
+	$wp_customize->add_setting( 'urban_charrette_about_button_1_text', array(
+		'default' => 'Learn More',
+		'sanitize_callback' => 'sanitize_text_field',
+		'transport' => 'refresh',
+	) );
+
+	$wp_customize->add_control( 'urban_charrette_about_button_1_text', array(
+		'label' => __( 'Button 1 Text (Secondary - Outlined)', 'urban-charrette' ),
+		'section' => 'urban_charrette_about',
+		'type' => 'text',
+	) );
+
+	$wp_customize->add_setting( 'urban_charrette_about_button_1_url', array(
+		'default' => '#',
+		'sanitize_callback' => 'esc_url_raw',
+		'transport' => 'refresh',
+	) );
+
+	$wp_customize->add_control( 'urban_charrette_about_button_1_url', array(
+		'label' => __( 'Button 1 URL', 'urban-charrette' ),
+		'section' => 'urban_charrette_about',
+		'type' => 'text',
+	) );
+
+	// Button 2 (Get Involved)
+	$wp_customize->add_setting( 'urban_charrette_about_button_2_text', array(
+		'default' => 'Get Involved',
+		'sanitize_callback' => 'sanitize_text_field',
+		'transport' => 'refresh',
+	) );
+
+	$wp_customize->add_control( 'urban_charrette_about_button_2_text', array(
+		'label' => __( 'Button 2 Text (Primary - Filled)', 'urban-charrette' ),
+		'section' => 'urban_charrette_about',
+		'type' => 'text',
+	) );
+
+	$wp_customize->add_setting( 'urban_charrette_about_button_2_url', array(
+		'default' => '#',
+		'sanitize_callback' => 'esc_url_raw',
+		'transport' => 'refresh',
+	) );
+
+	$wp_customize->add_control( 'urban_charrette_about_button_2_url', array(
+		'label' => __( 'Button 2 URL', 'urban-charrette' ),
+		'section' => 'urban_charrette_about',
 		'type' => 'text',
 	) );
 
