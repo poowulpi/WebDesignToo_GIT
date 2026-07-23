@@ -1,7 +1,7 @@
 <?php
 /**
- * Template Name: Homepage
- * Description: Homepage template with hero, What We Do, About, Projects, and Events sections
+ * Template Name: About
+ * Description: About template with Page Header, About, Projects, and Events sections
  *
  * @package Urban Charrette
  */

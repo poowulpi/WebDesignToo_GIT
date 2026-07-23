@@ -32,7 +32,7 @@ services:
       WORDPRESS_TABLE_PREFIX: wp_staging_
     volumes:
       - wordpress_data:/var/www/html
-      - '/Users/katiejean/Documents/02 Web Design Too/Github/WebDesignToo/WebDesignToo_GIT/Themes/urban-charrette-clean:/var/www/html/wp-content/themes/urban-charrette-clean'
+      - './:/var/www/html/wp-content/themes/urban-charrette-clean'
     ports:
       - "8081:80"
     restart: unless-stopped
