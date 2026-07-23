@@ -1,14 +1,15 @@
 <?php
 /**
- * Template Name: About
- * Description: About template with hero, What We Do, About, Projects, and Events sections
+ * Template Name: Homepage
+ * Description: Homepage template with hero, What We Do, About, Projects, and Events sections
  *
  * @package Urban Charrette
  */
 
 get_header();
 ?>
-<?php get_template_part( 'page-header' ); ?>
+
+<?php get_template_part( 'template-parts/page-header' ); ?>
 
 <?php get_template_part( 'template-parts/about' ); ?>
 

@@ -35,7 +35,7 @@
 	padding: 60px 40px;
 }
 
-.page-header__heading {
+.page-header__title {
 	margin: 0;
 	font-size: 56px;
 	font-weight: 400;
@@ -86,7 +86,7 @@
 		min-height: 350px;
 	}
 
-	.page-header__heading {
+	.page-header__title {
 		font-size: 48px;
 	}
 
@@ -104,7 +104,7 @@
 		min-height: 300px;
 	}
 
-	.page-header__heading {
+	.page-header__title {
 		font-size: 36px;
 		letter-spacing: 0.8px;
 	}
@@ -125,7 +125,7 @@
 		min-height: 250px;
 	}
 
-	.page-header__heading {
+	.page-header__title {
 		font-size: 28px;
 	}
 

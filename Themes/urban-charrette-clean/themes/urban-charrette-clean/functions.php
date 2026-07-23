@@ -581,14 +581,12 @@ function urban_charrette_add_customizer_settings( $wp_customize ) {
 		'section' => 'urban_charrette_cta',
 		'settings' => 'urban_charrette_cta_background',
 	) ) );
-
-
 }
 
 add_action( 'customize_register', 'urban_charrette_add_customizer_settings' );
 
 
-// Page Header Meta Box
+// Page Header Meta Box (per-page customization)
 function urban_charrette_add_page_header_meta_box() {
 	add_meta_box(
 		'urban_charrette_page_header',
@@ -606,38 +604,39 @@ add_action( 'add_meta_boxes', 'urban_charrette_add_page_header_meta_box' );
 function urban_charrette_render_page_header_meta_box( $post ) {
 	wp_nonce_field( 'urban_charrette_page_header_nonce', 'urban_charrette_page_header_nonce' );
 	
-	$heading = get_post_meta( $post->ID, 'page_header_heading', true );
+	$enabled = get_post_meta( $post->ID, 'page_header_enabled', true );
+	$title = get_post_meta( $post->ID, 'page_header_title', true );
 	$subtitle = get_post_meta( $post->ID, 'page_header_subtitle', true );
 	$background = get_post_meta( $post->ID, 'page_header_background', true );
 	$button_text = get_post_meta( $post->ID, 'page_header_button_text', true );
 	$button_url = get_post_meta( $post->ID, 'page_header_button_url', true );
-	$enable_header = get_post_meta( $post->ID, 'page_header_enable', true );
 	?>
 
 	<div style="margin-bottom: 20px;">
 		<label style="display: flex; align-items: center; gap: 10px; margin-bottom: 15px;">
-			<input type="checkbox" name="page_header_enable" value="1" <?php checked( $enable_header, '1' ); ?> />
-			<strong><?php _e( 'Enable Page Header', 'urban-charrette' ); ?></strong>
+			<input type="checkbox" name="page_header_enabled" value="1" <?php checked( $enabled, '1' ); ?> />
+			<strong><?php _e( 'Enable Custom Page Header', 'urban-charrette' ); ?></strong>
 		</label>
+		<small><?php _e( 'When unchecked, falls back to global CTA settings from Customizer.', 'urban-charrette' ); ?></small>
 	</div>
 
+	<hr />
+
 	<div style="margin-bottom: 15px;">
-		<label for="page_header_heading"><strong><?php _e( 'Heading', 'urban-charrette' ); ?></strong></label>
-		<textarea id="page_header_heading" name="page_header_heading" style="width: 100%; height: 80px; padding: 8px; font-family: monospace;" placeholder="Leave blank to use global CTA heading..."><?php echo esc_textarea( $heading ); ?></textarea>
-		<small><?php _e( 'Leave blank to use the global CTA title setting.', 'urban-charrette' ); ?></small>
+		<label for="page_header_title"><strong><?php _e( 'Title', 'urban-charrette' ); ?></strong></label>
+		<input type="text" id="page_header_title" name="page_header_title" value="<?php echo esc_attr( $title ); ?>" style="width: 100%; padding: 10px; font-size: 14px;" />
 	</div>
 
 	<div style="margin-bottom: 15px;">
 		<label for="page_header_subtitle"><strong><?php _e( 'Subtitle / Description', 'urban-charrette' ); ?></strong></label>
-		<textarea id="page_header_subtitle" name="page_header_subtitle" style="width: 100%; height: 80px; padding: 8px; font-family: monospace;" placeholder="Leave blank to use global CTA subtitle..."><?php echo esc_textarea( $subtitle ); ?></textarea>
-		<small><?php _e( 'Leave blank to use the global CTA subtitle setting.', 'urban-charrette' ); ?></small>
+		<textarea id="page_header_subtitle" name="page_header_subtitle" style="width: 100%; height: 100px; padding: 10px; font-size: 14px;"><?php echo esc_textarea( $subtitle ); ?></textarea>
 	</div>
 
 	<div style="margin-bottom: 15px;">
 		<label for="page_header_background"><strong><?php _e( 'Background Image', 'urban-charrette' ); ?></strong></label>
-		<div id="page_header_background_preview" style="margin-bottom: 10px;">
+		<div id="page_header_background_preview" style="margin-bottom: 10px; max-width: 300px;">
 			<?php if ( $background ) : ?>
-				<img src="<?php echo esc_url( $background ); ?>" style="max-width: 200px; border-radius: 4px;" />
+				<img src="<?php echo esc_url( $background ); ?>" style="max-width: 100%; border-radius: 4px;" />
 			<?php endif; ?>
 		</div>
 		<input type="hidden" id="page_header_background" name="page_header_background" value="<?php echo esc_attr( $background ); ?>" />
@@ -645,18 +644,18 @@ function urban_charrette_render_page_header_meta_box( $post ) {
 		<?php if ( $background ) : ?>
 			<button type="button" class="button" id="page_header_background_remove" style="margin-left: 5px;"><?php _e( 'Remove', 'urban-charrette' ); ?></button>
 		<?php endif; ?>
-		<small><?php _e( 'Leave blank to use the global CTA background setting.', 'urban-charrette' ); ?></small>
 	</div>
+
+	<hr />
 
 	<div style="margin-bottom: 15px;">
 		<label for="page_header_button_text"><strong><?php _e( 'Button Text (Optional)', 'urban-charrette' ); ?></strong></label>
-		<input type="text" id="page_header_button_text" name="page_header_button_text" value="<?php echo esc_attr( $button_text ); ?>" style="width: 100%; padding: 8px;" placeholder="e.g., Learn More" />
-		<small><?php _e( 'Leave blank to hide the button.', 'urban-charrette' ); ?></small>
+		<input type="text" id="page_header_button_text" name="page_header_button_text" value="<?php echo esc_attr( $button_text ); ?>" style="width: 100%; padding: 10px; font-size: 14px;" placeholder="e.g., Learn More" />
 	</div>
 
 	<div style="margin-bottom: 15px;">
 		<label for="page_header_button_url"><strong><?php _e( 'Button URL (Optional)', 'urban-charrette' ); ?></strong></label>
-		<input type="text" id="page_header_button_url" name="page_header_button_url" value="<?php echo esc_url( $button_url ); ?>" style="width: 100%; padding: 8px;" placeholder="e.g., https://example.com" />
+		<input type="text" id="page_header_button_url" name="page_header_button_url" value="<?php echo esc_url( $button_url ); ?>" style="width: 100%; padding: 10px; font-size: 14px;" placeholder="e.g., https://example.com" />
 	</div>
 
 	<script>
@@ -679,7 +678,7 @@ function urban_charrette_render_page_header_meta_box( $post ) {
 				frame.on('select', function() {
 					const attachment = frame.state().get('selection').first().toJSON();
 					document.getElementById('page_header_background').value = attachment.url;
-					document.getElementById('page_header_background_preview').innerHTML = '<img src="' + attachment.url + '" style="max-width: 200px; border-radius: 4px;" />';
+					document.getElementById('page_header_background_preview').innerHTML = '<img src="' + attachment.url + '" style="max-width: 100%; border-radius: 4px;" />';
 
 					const removeBtn = document.getElementById('page_header_background_remove');
 					if (!removeBtn) {
@@ -701,7 +700,8 @@ function urban_charrette_render_page_header_meta_box( $post ) {
 				e.preventDefault();
 				document.getElementById('page_header_background').value = '';
 				document.getElementById('page_header_background_preview').innerHTML = '';
-				document.getElementById('page_header_background_remove').remove();
+				const btn = document.getElementById('page_header_background_remove');
+				if (btn) btn.remove();
 			}
 
 			const removeBtn = document.getElementById('page_header_background_remove');
@@ -729,8 +729,8 @@ function urban_charrette_save_page_header_meta( $post_id ) {
 	}
 
 	$fields = array(
-		'page_header_enable',
-		'page_header_heading',
+		'page_header_enabled',
+		'page_header_title',
 		'page_header_subtitle',
 		'page_header_background',
 		'page_header_button_text',
@@ -738,14 +738,14 @@ function urban_charrette_save_page_header_meta( $post_id ) {
 	);
 
 	foreach ( $fields as $field ) {
-		if ( $field === 'page_header_enable' ) {
+		if ( $field === 'page_header_enabled' ) {
 			$value = isset( $_POST[ $field ] ) ? '1' : '';
 		} elseif ( $field === 'page_header_background' ) {
 			$value = isset( $_POST[ $field ] ) ? esc_url_raw( $_POST[ $field ] ) : '';
 		} elseif ( $field === 'page_header_button_url' ) {
 			$value = isset( $_POST[ $field ] ) ? esc_url_raw( $_POST[ $field ] ) : '';
 		} else {
-			$value = isset( $_POST[ $field ] ) ? wp_kses_post( $_POST[ $field ] ) : '';
+			$value = isset( $_POST[ $field ] ) ? sanitize_text_field( $_POST[ $field ] ) : '';
 		}
 
 		if ( $value ) {
