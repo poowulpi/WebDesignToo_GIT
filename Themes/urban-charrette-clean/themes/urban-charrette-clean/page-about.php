@@ -1,7 +1,7 @@
 <?php
 /**
  * Template Name: About
- * Description: About template with Page Header, About, Projects, and Events sections
+ * Description: About template with sections
  *
  * @package Urban Charrette
  */
@@ -18,7 +18,6 @@ get_header();
 <?php get_template_part( 'template-parts/board-of-directors' ); ?>
 
 <?php get_template_part( 'template-parts/events' ); ?>
-
 
 <?php
 get_footer();
