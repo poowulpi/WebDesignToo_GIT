@@ -1,18 +1,18 @@
-version: '3.9'
+version: '3.8'
 
 services:
-  mysql:
+  db:
     image: mysql:8.0
-    container_name: wp-mysql-staging
+    container_name: wordpress_db
     environment:
-      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
-      MYSQL_DATABASE: ${MYSQL_DATABASE}
-      MYSQL_USER: ${MYSQL_USER}
-      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: wordpress
+      MYSQL_USER: wordpress
+      MYSQL_PASSWORD: wordpresspass
     volumes:
-      - mysql_data:/var/lib/mysql
+      - db_data:/var/lib/mysql
     ports:
-      - "3307:3306"
+      - "3306:3306"
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
       timeout: 20s
@@ -20,23 +20,26 @@ services:
 
   wordpress:
     image: wordpress:latest
-    container_name: wp-wordpress-staging
+    container_name: wordpress_app
     depends_on:
-      mysql:
+      db:
         condition: service_healthy
     environment:
-      WORDPRESS_DB_HOST: mysql:3306
-      WORDPRESS_DB_NAME: ${MYSQL_DATABASE}
-      WORDPRESS_DB_USER: ${MYSQL_USER}
-      WORDPRESS_DB_PASSWORD: ${MYSQL_PASSWORD}
-      WORDPRESS_TABLE_PREFIX: wp_staging_
+      WORDPRESS_DB_HOST: wordpress_db
+      WORDPRESS_DB_NAME: wordpress
+      WORDPRESS_DB_USER: wordpress
+      WORDPRESS_DB_PASSWORD: wordpresspass
+      WORDPRESS_TABLE_PREFIX: wp_
     volumes:
-      - wordpress_data:/var/www/html
-      - '/Users/katiejean/Documents/02 Web Design Too/Github/WebDesignToo/WebDesignToo_GIT/Themes/urban-charrette-clean:/var/www/html/wp-content/themes/urban-charrette-clean'
+      - wp_data:/var/www/html
+      - ./themes/urban-charrette-clean:/var/www/html/wp-content/themes/urban-charrette-clean
     ports:
-      - "8081:80"
-    restart: unless-stopped
+      - "8080:80"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost/wp-admin/admin-ajax.php"]
+      timeout: 20s
+      retries: 10
 
 volumes:
-  mysql_data:
-  wordpress_data:
+  db_data:
+  wp_data:
