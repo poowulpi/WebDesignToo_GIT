@@ -118,6 +118,13 @@ function urban_charrette_enqueue_assets() {
 		wp_get_theme()->get( 'Version' )
 	);
 
+
+	wp_enqueue_style(
+		'urban-charrette-board-of-directors',
+		get_template_directory_uri() . '/assets/css/board-of-directors.css',
+		array( 'urban-charrette-fonts' ),
+		wp_get_theme()->get( 'Version' )
+	);
 	wp_enqueue_script(
 		'urban-charrette-navigation',
 		get_template_directory_uri() . '/assets/js/navigation.js',
@@ -1031,3 +1038,101 @@ function urban_charrette_save_text_left_text_right_meta( $post_id ) {
 	}
 }
 add_action( 'save_post', 'urban_charrette_save_text_left_text_right_meta' );
+
+
+// Board of Directors Customizer Settings
+function urban_charrette_add_board_customizer_settings( $wp_customize ) {
+	$wp_customize->add_section( 'urban_charrette_board', array(
+		'title' => __( 'Board of Directors', 'urban-charrette' ),
+		'priority' => 119,
+	) );
+
+	$wp_customize->add_setting( 'urban_charrette_board_title', array(
+		'default' => 'Board of Directors',
+		'sanitize_callback' => 'sanitize_text_field',
+		'transport' => 'refresh',
+	) );
+
+	$wp_customize->add_control( 'urban_charrette_board_title', array(
+		'label' => __( 'Section Title', 'urban-charrette' ),
+		'section' => 'urban_charrette_board',
+		'type' => 'text',
+	) );
+
+	$wp_customize->add_setting( 'urban_charrette_board_background', array(
+		'default' => '#EE4525',
+		'sanitize_callback' => 'sanitize_hex_color',
+		'transport' => 'refresh',
+	) );
+
+	$wp_customize->add_control( new WP_Customize_Color_Control( $wp_customize, 'urban_charrette_board_background', array(
+		'label' => __( 'Background Color', 'urban-charrette' ),
+		'section' => 'urban_charrette_board',
+		'settings' => 'urban_charrette_board_background',
+	) ) );
+
+	// Add 12 board members
+	for ( $i = 1; $i <= 12; $i++ ) {
+		$wp_customize->add_setting( "urban_charrette_board_member_{$i}_image", array(
+			'default' => '',
+			'sanitize_callback' => 'esc_url_raw',
+			'transport' => 'refresh',
+		) );
+
+		$wp_customize->add_control( new WP_Customize_Image_Control( $wp_customize, "urban_charrette_board_member_{$i}_image", array(
+			'label' => __( "Member {$i} Image", 'urban-charrette' ),
+			'section' => 'urban_charrette_board',
+			'settings' => "urban_charrette_board_member_{$i}_image",
+		) ) );
+
+		$wp_customize->add_setting( "urban_charrette_board_member_{$i}_name", array(
+			'default' => '',
+			'sanitize_callback' => 'sanitize_text_field',
+			'transport' => 'refresh',
+		) );
+
+		$wp_customize->add_control( "urban_charrette_board_member_{$i}_name", array(
+			'label' => __( "Member {$i} Name", 'urban-charrette' ),
+			'section' => 'urban_charrette_board',
+			'type' => 'text',
+		) );
+
+		$wp_customize->add_setting( "urban_charrette_board_member_{$i}_title", array(
+			'default' => '',
+			'sanitize_callback' => 'sanitize_text_field',
+			'transport' => 'refresh',
+		) );
+
+		$wp_customize->add_control( "urban_charrette_board_member_{$i}_title", array(
+			'label' => __( "Member {$i} Position", 'urban-charrette' ),
+			'section' => 'urban_charrette_board',
+			'type' => 'text',
+		) );
+
+		$wp_customize->add_setting( "urban_charrette_board_member_{$i}_education", array(
+			'default' => '',
+			'sanitize_callback' => 'wp_kses_post',
+			'transport' => 'refresh',
+		) );
+
+		$wp_customize->add_control( "urban_charrette_board_member_{$i}_education", array(
+			'label' => __( "Member {$i} Education", 'urban-charrette' ),
+			'section' => 'urban_charrette_board',
+			'type' => 'textarea',
+		) );
+
+		$wp_customize->add_setting( "urban_charrette_board_member_{$i}_favorite_place", array(
+			'default' => '',
+			'sanitize_callback' => 'wp_kses_post',
+			'transport' => 'refresh',
+		) );
+
+		$wp_customize->add_control( "urban_charrette_board_member_{$i}_favorite_place", array(
+			'label' => __( "Member {$i} Favorite Place in Tampa", 'urban-charrette' ),
+			'section' => 'urban_charrette_board',
+			'type' => 'textarea',
+		) );
+	}
+}
+
+add_action( 'customize_register', 'urban_charrette_add_board_customizer_settings' );
