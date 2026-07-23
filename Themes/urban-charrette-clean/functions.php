@@ -28,6 +28,24 @@ function urban_charrette_theme_setup() {
 add_action( 'after_setup_theme', 'urban_charrette_theme_setup' );
 
 
+// Register sidebars/widget areas
+function urban_charrette_widgets_init() {
+	register_sidebar(
+		array(
+			'name'          => __( 'Events Section', 'urban-charrette' ),
+			'id'            => 'urban-charrette-events',
+			'description'   => __( 'Widgets in this area will be shown in the Events section', 'urban-charrette' ),
+			'before_widget' => '<div id="%1$s" class="widget %2$s">',
+			'after_widget'  => '</div>',
+			'before_title'  => '<h3 class="widget-title">',
+			'after_title'   => '</h3>',
+		)
+	);
+}
+
+add_action( 'widgets_init', 'urban_charrette_widgets_init' );
+
+
 function urban_charrette_enqueue_assets() {
 
 	wp_enqueue_style(
@@ -68,6 +86,13 @@ function urban_charrette_enqueue_assets() {
 	wp_enqueue_style(
 		'urban-charrette-projects',
 		get_template_directory_uri() . '/assets/css/projects.css',
+		array( 'urban-charrette-fonts' ),
+		wp_get_theme()->get( 'Version' )
+	);
+
+	wp_enqueue_style(
+		'urban-charrette-events',
+		get_template_directory_uri() . '/assets/css/events.css',
 		array( 'urban-charrette-fonts' ),
 		wp_get_theme()->get( 'Version' )
 	);
@@ -444,6 +469,36 @@ function urban_charrette_add_customizer_settings( $wp_customize ) {
 		'label' => __( 'View All Button URL', 'urban-charrette' ),
 		'section' => 'urban_charrette_projects',
 		'type' => 'text',
+	) );
+
+	// Events Section
+	$wp_customize->add_section( 'urban_charrette_events', array(
+		'title' => __( 'Events Section', 'urban-charrette' ),
+		'priority' => 119,
+	) );
+
+	$wp_customize->add_setting( 'urban_charrette_events_title', array(
+		'default' => 'Events',
+		'sanitize_callback' => 'sanitize_text_field',
+		'transport' => 'refresh',
+	) );
+
+	$wp_customize->add_control( 'urban_charrette_events_title', array(
+		'label' => __( 'Section Title', 'urban-charrette' ),
+		'section' => 'urban_charrette_events',
+		'type' => 'text',
+	) );
+
+	$wp_customize->add_setting( 'urban_charrette_events_description', array(
+		'default' => 'Stay updated with our upcoming events and programs.',
+		'sanitize_callback' => 'wp_kses_post',
+		'transport' => 'refresh',
+	) );
+
+	$wp_customize->add_control( 'urban_charrette_events_description', array(
+		'label' => __( 'Section Description', 'urban-charrette' ),
+		'section' => 'urban_charrette_events',
+		'type' => 'textarea',
 	) );
 
 	// Footer Section
