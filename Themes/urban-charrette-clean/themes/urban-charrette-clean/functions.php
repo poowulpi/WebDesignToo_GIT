@@ -786,8 +786,7 @@ function urban_charrette_render_text_left_image_right_meta_box( $post ) {
 
 	$enabled = get_post_meta( $post->ID, 'text_left_image_right_enabled', true );
 	$title = get_post_meta( $post->ID, 'text_left_image_right_title', true );
-	$text_1 = get_post_meta( $post->ID, 'text_left_image_right_text_1', true );
-	$text_2 = get_post_meta( $post->ID, 'text_left_image_right_text_2', true );
+	$text = get_post_meta( $post->ID, 'text_left_image_right_text', true );
 	$image = get_post_meta( $post->ID, 'text_left_image_right_image', true );
 	$button_1_text = get_post_meta( $post->ID, 'text_left_image_right_button_1_text', true );
 	$button_1_url = get_post_meta( $post->ID, 'text_left_image_right_button_1_url', true );
@@ -811,13 +810,8 @@ function urban_charrette_render_text_left_image_right_meta_box( $post ) {
 	</div>
 
 	<div style="margin-bottom: 15px;">
-		<label for="text_left_image_right_text_1"><strong><?php _e( 'First Paragraph', 'urban-charrette' ); ?></strong></label>
-		<textarea id="text_left_image_right_text_1" name="text_left_image_right_text_1" style="width: 100%; height: 100px; padding: 10px; font-size: 14px;"><?php echo esc_textarea( $text_1 ); ?></textarea>
-	</div>
-
-	<div style="margin-bottom: 15px;">
-		<label for="text_left_image_right_text_2"><strong><?php _e( 'Second Paragraph', 'urban-charrette' ); ?></strong></label>
-		<textarea id="text_left_image_right_text_2" name="text_left_image_right_text_2" style="width: 100%; height: 100px; padding: 10px; font-size: 14px;"><?php echo esc_textarea( $text_2 ); ?></textarea>
+		<label for="text_left_image_right_text"><strong><?php _e( 'Content', 'urban-charrette' ); ?></strong></label>
+		<textarea id="text_left_image_right_text" name="text_left_image_right_text" style="width: 100%; height: 150px; padding: 10px; font-size: 14px;"><?php echo esc_textarea( $text ); ?></textarea>
 	</div>
 
 	<div style="margin-bottom: 15px;">
@@ -929,8 +923,7 @@ function urban_charrette_save_text_left_image_right_meta( $post_id ) {
 	$fields = array(
 		'text_left_image_right_enabled',
 		'text_left_image_right_title',
-		'text_left_image_right_text_1',
-		'text_left_image_right_text_2',
+		'text_left_image_right_text',
 		'text_left_image_right_image',
 		'text_left_image_right_button_1_text',
 		'text_left_image_right_button_1_url',
@@ -945,6 +938,8 @@ function urban_charrette_save_text_left_image_right_meta( $post_id ) {
 			$value = isset( $_POST[ $field ] ) ? esc_url_raw( $_POST[ $field ] ) : '';
 		} elseif ( strpos( $field, '_url' ) !== false ) {
 			$value = isset( $_POST[ $field ] ) ? esc_url_raw( $_POST[ $field ] ) : '';
+		} elseif ( $field === 'text_left_image_right_text' ) {
+			$value = isset( $_POST[ $field ] ) ? wp_kses_post( $_POST[ $field ] ) : '';
 		} else {
 			$value = isset( $_POST[ $field ] ) ? sanitize_text_field( $_POST[ $field ] ) : '';
 		}

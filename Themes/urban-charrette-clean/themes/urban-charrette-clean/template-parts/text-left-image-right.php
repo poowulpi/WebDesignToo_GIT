@@ -14,8 +14,7 @@ $is_custom = get_post_meta( get_the_ID(), 'text_left_image_right_enabled', true 
 if ( $is_custom ) {
 	// Use page-specific settings
 	$title = get_post_meta( get_the_ID(), 'text_left_image_right_title', true );
-	$text_1 = get_post_meta( get_the_ID(), 'text_left_image_right_text_1', true );
-	$text_2 = get_post_meta( get_the_ID(), 'text_left_image_right_text_2', true );
+	$text = get_post_meta( get_the_ID(), 'text_left_image_right_text', true );
 	$image = get_post_meta( get_the_ID(), 'text_left_image_right_image', true );
 	$button_1_text = get_post_meta( get_the_ID(), 'text_left_image_right_button_1_text', true );
 	$button_1_url = get_post_meta( get_the_ID(), 'text_left_image_right_button_1_url', true );
@@ -26,6 +25,7 @@ if ( $is_custom ) {
 	$title = get_theme_mod( 'urban_charrette_about_title', 'About the Urban Charrette' );
 	$text_1 = get_theme_mod( 'urban_charrette_about_text_1', 'The Urban Charrette facilitates connections between the community and the built environment by cultivating awareness of respectful urban design through dialogue, collaboration, and education.' );
 	$text_2 = get_theme_mod( 'urban_charrette_about_text_2', 'We are a private, not-for-profit organization whose primary goal is to educate citizens on the importance of quality urban design in shaping more beautiful, sustainable, and authentic cities. We host educational forums and consensus building workshops incorporating meaningful and broad-based public participation. Founded in Tampa, the Urban Charrette believes in leading by example to develop a more socially, economically and sustainable local environment that addresses the needs of young professionals, children, families, and the aging.' );
+	$text = $text_1 . '</p><p>' . $text_2;
 	$image = get_theme_mod( 'urban_charrette_about_image', '' );
 	$button_1_text = get_theme_mod( 'urban_charrette_about_button_1_text', 'Learn More' );
 	$button_1_url = get_theme_mod( 'urban_charrette_about_button_1_url', '#' );
@@ -41,12 +41,10 @@ if ( $is_custom ) {
 				<h2 class="text-left-image-right__title"><?php echo esc_html( $title ); ?></h2>
 			<?php endif; ?>
 			
-			<?php if ( ! empty( $text_1 ) ) : ?>
-				<p class="text-left-image-right__text"><?php echo esc_html( $text_1 ); ?></p>
-			<?php endif; ?>
-
-			<?php if ( ! empty( $text_2 ) ) : ?>
-				<p class="text-left-image-right__text"><?php echo esc_html( $text_2 ); ?></p>
+			<?php if ( ! empty( $text ) ) : ?>
+				<div class="text-left-image-right__text">
+					<?php echo wp_kses_post( $text ); ?>
+				</div>
 			<?php endif; ?>
 
 			<?php if ( ! empty( $button_1_text ) || ! empty( $button_2_text ) ) : ?>

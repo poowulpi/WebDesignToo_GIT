@@ -11,7 +11,7 @@ get_header();
 
 <?php get_template_part( 'template-parts/page-header' ); ?>
 
-<?php get_template_part( 'template-parts/about' ); ?>
+<?php get_template_part( 'template-parts/text-left-image-right' ); ?>
 
 <?php get_template_part( 'template-parts/projects' ); ?>
 
