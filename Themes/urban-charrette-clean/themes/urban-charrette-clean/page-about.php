@@ -13,6 +13,8 @@ get_header();
 
 <?php get_template_part( 'template-parts/text-left-image-right' ); ?>
 
+<?php get_template_part( 'template-parts/text-left-text-right' ); ?>
+
 <?php get_template_part( 'template-parts/projects' ); ?>
 
 <?php get_template_part( 'template-parts/events' ); ?>

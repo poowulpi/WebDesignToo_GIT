@@ -111,6 +111,13 @@ function urban_charrette_enqueue_assets() {
 		wp_get_theme()->get( 'Version' )
 	);
 
+	wp_enqueue_style(
+		'urban-charrette-text-left-text-right',
+		get_template_directory_uri() . '/assets/css/text-left-text-right.css',
+		array( 'urban-charrette-fonts' ),
+		wp_get_theme()->get( 'Version' )
+	);
+
 	wp_enqueue_script(
 		'urban-charrette-navigation',
 		get_template_directory_uri() . '/assets/js/navigation.js',
@@ -953,3 +960,74 @@ function urban_charrette_save_text_left_image_right_meta( $post_id ) {
 }
 
 add_action( 'save_post', 'urban_charrette_save_text_left_image_right_meta' );
+
+
+// Text Left Text Right Meta Box
+function urban_charrette_add_text_left_text_right_meta_box() {
+	add_meta_box(
+		'urban_charrette_text_left_text_right',
+		__( 'Text Left Text Right Settings', 'urban-charrette' ),
+		'urban_charrette_render_text_left_text_right_meta_box',
+		array( 'page', 'post' ),
+		'normal',
+		'high'
+	);
+}
+add_action( 'add_meta_boxes', 'urban_charrette_add_text_left_text_right_meta_box' );
+
+function urban_charrette_render_text_left_text_right_meta_box( $post ) {
+	wp_nonce_field( 'urban_charrette_text_left_text_right_nonce', 'urban_charrette_text_left_text_right_nonce' );
+	$enabled = get_post_meta( $post->ID, 'text_left_text_right_enabled', true );
+	$title = get_post_meta( $post->ID, 'text_left_text_right_title', true );
+	$text_left = get_post_meta( $post->ID, 'text_left_text_right_left', true );
+	$text_right = get_post_meta( $post->ID, 'text_left_text_right_right', true );
+	?>
+	<div style="margin-bottom: 20px;">
+		<label style="display: flex; align-items: center; gap: 10px;">
+			<input type="checkbox" name="text_left_text_right_enabled" value="1" <?php checked( $enabled, '1' ); ?> />
+			<strong><?php _e( 'Enable Custom Section', 'urban-charrette' ); ?></strong>
+		</label>
+	</div>
+	<hr />
+	<div style="margin-bottom: 15px;">
+		<label for="text_left_text_right_title"><strong><?php _e( 'Title', 'urban-charrette' ); ?></strong></label>
+		<input type="text" id="text_left_text_right_title" name="text_left_text_right_title" value="<?php echo esc_attr( $title ); ?>" style="width: 100%; padding: 10px;" />
+	</div>
+	<div style="margin-bottom: 15px;">
+		<label for="text_left_text_right_left"><strong><?php _e( 'Left Column', 'urban-charrette' ); ?></strong></label>
+		<textarea id="text_left_text_right_left" name="text_left_text_right_left" style="width: 100%; height: 150px; padding: 10px; font-family: monospace;"><?php echo esc_textarea( $text_left ); ?></textarea>
+	</div>
+	<div style="margin-bottom: 15px;">
+		<label for="text_left_text_right_right"><strong><?php _e( 'Right Column', 'urban-charrette' ); ?></strong></label>
+		<textarea id="text_left_text_right_right" name="text_left_text_right_right" style="width: 100%; height: 150px; padding: 10px; font-family: monospace;"><?php echo esc_textarea( $text_right ); ?></textarea>
+	</div>
+	<?php
+}
+
+function urban_charrette_save_text_left_text_right_meta( $post_id ) {
+	if ( ! isset( $_POST['urban_charrette_text_left_text_right_nonce'] ) || ! wp_verify_nonce( $_POST['urban_charrette_text_left_text_right_nonce'], 'urban_charrette_text_left_text_right_nonce' ) ) {
+		return;
+	}
+	if ( defined( 'DOING_AUTOSAVE' ) && DOING_AUTOSAVE ) {
+		return;
+	}
+	if ( ! current_user_can( 'edit_post', $post_id ) ) {
+		return;
+	}
+	$fields = array( 'text_left_text_right_enabled', 'text_left_text_right_title', 'text_left_text_right_left', 'text_left_text_right_right' );
+	foreach ( $fields as $field ) {
+		if ( $field === 'text_left_text_right_enabled' ) {
+			$value = isset( $_POST[ $field ] ) ? '1' : '';
+		} elseif ( strpos( $field, 'text_left' ) !== false || strpos( $field, 'text_right' ) !== false ) {
+			$value = isset( $_POST[ $field ] ) ? wp_kses_post( $_POST[ $field ] ) : '';
+		} else {
+			$value = isset( $_POST[ $field ] ) ? sanitize_text_field( $_POST[ $field ] ) : '';
+		}
+		if ( $value ) {
+			update_post_meta( $post_id, $field, $value );
+		} else {
+			delete_post_meta( $post_id, $field );
+		}
+	}
+}
+add_action( 'save_post', 'urban_charrette_save_text_left_text_right_meta' );
